@@ -1,0 +1,15 @@
+{% extends "base.html.twig" %}
+{% block title %}{{ title }}{% endblock %}
+{% block body %}
+    <h1>{{ h1 }}</h1>
+    {% for message in app.flashes('notice') %}
+        <p>{{ message }}</p>
+    {% endfor %}
+    <div class="content">
+        <p>category show:  {{ slug }}</p>
+        <p>page : {{ page }}</p>
+        <p><a href="{{ path('category_message') }}">Add to Cart</a></p>
+        {{ param }}
+
+    </div>
+{% endblock %}
