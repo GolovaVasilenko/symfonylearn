@@ -1,9 +1,11 @@
 {% extends "base.html.twig" %}
+
 {% block title %}{{ title }}{% endblock %}
+
 {% block body %}
     <h1>{{ h1 }}</h1>
     {% for message in app.flashes('notice') %}
-        <p>{{ message }}</p>
+        <p class="alert">{{ message }}</p>
     {% endfor %}
     <div class="content">
         <p>category show:  {{ slug }}</p>

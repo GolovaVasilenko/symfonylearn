@@ -6,6 +6,7 @@ namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -18,9 +19,9 @@ class CategoryController extends Controller
 	 *
 	 * @param $slug
 	 * @param $page
-	 * $param $session
+	 * @param $session
 	 *
-	 * $return Response
+	 * @return Response
 	 */
 	public function show($slug, SessionInterface $session, Request $request, $page = 1 )
 	{
@@ -36,7 +37,7 @@ class CategoryController extends Controller
 	}
 
 	/**
-	 * Route("/message", name="category_message")
+	 * @Route("/message", name="category_message")
 	 */
 	public function message(SessionInterface $session)
 	{
