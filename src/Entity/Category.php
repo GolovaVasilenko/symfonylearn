@@ -1,0 +1,130 @@
+<?php
+
+namespace App\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
+ */
+class Category
+{
+    /**
+     * @ORM\Id
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
+     */
+    private $id;
+
+	/**
+	 * @ORM\Column(type="string", length=255)
+	 */
+    private $name;
+
+	/**
+	 * @ORM\Column(type="text")
+	 */
+    private $description;
+
+	/**
+	 * @ORM\Column(type="string", unique=true, length=255)
+	 */
+    private $slug;
+
+	/**
+	 * @ORM\Column(type="integer")
+	 */
+    private $parent_id;
+
+	/**
+	 * @return mixed
+	 */
+	public function getId()
+	{
+		return $this->id;
+	}
+
+	/**
+	 * @param mixed $id
+	 * @return Category
+	 */
+	public function setId( $id )
+	{
+		$this->id = $id;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
+	 * @param mixed $name
+	 * @return Category
+	 */
+	public function setName( $name )
+	{
+		$this->name = $name;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getDescription()
+	{
+		return $this->description;
+	}
+
+	/**
+	 * @param mixed $description
+	 * @return Category
+	 */
+	public function setDescription( $description )
+	{
+		$this->description = $description;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getSlug()
+	{
+		return $this->slug;
+	}
+
+	/**
+	 * @param mixed $slug
+	 * @return Category
+	 */
+	public function setSlug( $slug )
+	{
+		$this->slug = $slug;
+		return $this;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getParentId()
+	{
+		return $this->parent_id;
+	}
+
+	/**
+	 * @param mixed $parent_id
+	 * @return Category
+	 */
+	public function setParentId( $parent_id )
+	{
+		$this->parent_id = $parent_id;
+		return $this;
+	}
+
+
+}
