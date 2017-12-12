@@ -8,10 +8,16 @@
         <p class="alert">{{ message }}</p>
     {% endfor %}
     <div class="content">
-        <p>category show:  {{ slug }}</p>
-        <p>page : {{ page }}</p>
-        <p><a href="{{ path('category_message') }}">Add to Cart</a></p>
-        {{ param }}
+        <p>category show:  {{ category.name }}</p>
+
+        <h2>Products :</h2>
+
+        {% for product in category.products %}
+            <a href="{{ path('product_show', {"id": product.id}) }}">
+                {{ product.name }}
+            </a>
+            <p>price: {{ product.price|number_format(2) }}</p>
+        {% endfor %}
 
     </div>
 {% endblock %}
