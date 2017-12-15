@@ -4,6 +4,7 @@
 namespace App\Controller;
 
 
+use App\Service\Catalogue;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -16,6 +17,21 @@ use App\Entity\Category;
 
 class CategoryController extends Controller
 {
+
+	/**
+	 * @var Catalogue
+	 */
+	private $catalogue;
+
+	/**
+	 * CategoryController constructor.
+	 *
+	 * @param Catalogue $catalogue
+	 */
+	public function __construct(Catalogue $catalogue)
+	{
+		$this->catalogue = $catalogue;
+	}
 
 	/**
 	 * @Route("/category/{id}", name="category_show_by_id", requirements={"id": "\d+"})
@@ -44,8 +60,13 @@ class CategoryController extends Controller
 	 */
 	public function index()
 	{
-		$repo = $this->getDoctrine()->getRepository(Category::class);
-		$categories = $repo->findAll();
+
+		$categories = $this->catalogue->getCategories();
+
+		if(!$categories){
+			throw $this->createNotFoundException('Category not found');
+		}
+
 		return $this->render('category/index.html.twig',[
 			'title' => 'List Categories',
 			'categories' => $categories

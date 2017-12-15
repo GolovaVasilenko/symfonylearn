@@ -34,9 +34,18 @@ class Category
     private $slug;
 
 	/**
-	 * @ORM\Column(type="integer")
+	 *
+	 * @ORM\ManyToOne(targetEntity="App\Entity\Category", inversedBy="subcategory")
+	 * @ORM\JoinColumn(name="parent_id", onDelete="CASCADE")
 	 */
-    private $parent_id;
+    private $parent;
+
+	/**
+	 * @var
+	 *
+	 * @ORM\OneToMany(targetEntity="App\Entity\Category", mappedBy="parent")
+	 */
+    private $subcategory;
 
 	/**
 	 * @var Product[]|ArrayCollection
