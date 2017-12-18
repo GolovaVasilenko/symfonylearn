@@ -4,11 +4,9 @@
 {% endblock %}
 
 {% block body %}
-    {% for product in products %}
-        <h3>{{ product.name }}</h3>
-        <p>{{ product.price }}</p>
-        <p>{{ product.description }}</p>
-    {% endfor %}
+    <div class="section-products-list">
+        {% include '/product/blocks/products-loop.html.twig' %}
+    </div>
 
 {% endblock %}
 

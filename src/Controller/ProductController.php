@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Product;
+use App\Service\Catalogue;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -63,19 +64,15 @@ class ProductController extends Controller
 	}
 
 	/**
-	 * @Route("/products/{name}", name="products_list")
+	 * @Route("/products", name="products_list")
+	 *
+	 * @param Catalogue $catalogue
+	 *
+	 * @return Response
 	 */
-	public function listProduct($name = '')
+	public function listProduct(Catalogue $catalogue)
 	{
-		$repo = $this->getDoctrine()->getRepository(Product::class);
-
-
-		if($name){
-			$products = $repo->findBy(['name' => $name], ['price' => 'DESC']);
-		}
-		else {
-			$products = $repo->findAll();
-		}
+		$products = $catalogue->getProducts();
 
 		if(!$products){
 			throw $this->createNotFoundException('Products not found');

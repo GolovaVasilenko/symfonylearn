@@ -5,6 +5,7 @@ namespace App\Controller;
 
 use App\Entity\Page;
 use App\Service\Catalogue;
+use App\Service\StaticPage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,22 +17,18 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class PageController extends Controller
 {
 	/**
-	 * @Route("/{slug}", name="page")
+	 * @Route("/", name="home")
 	 *
-	 * @param $em
-	 * @param $slug
-	 * @return mixed
+	 * @param StaticPage $sp
+	 * @param Catalogue $catalogue
+	 * @return Response
 	 */
-	public function getPage($slug = 'home', EntityManagerInterface $em, Catalogue $catalogue)
+	public function getPage(StaticPage $sp, Catalogue $catalogue)
 	{
-		$products = [];
-		$repo = $this->getDoctrine()->getRepository(Page::class);
 
-		if('home' === $slug){
-			$products = $catalogue->getProducts();
-		}
+		$products = $catalogue->getProducts();
 
-		$page = $repo->findOneBy(['slug' => $slug]);
+		$page = $sp->getPage('home');
 
 		if(!$page){
 			throw new NotFoundHttpException("ERROR 404 Page Not Found!");
@@ -44,10 +41,44 @@ class PageController extends Controller
 	}
 
 	/**
-	 * @Route("/about-to")
+	 * @Route("/about", name="about")
+	 * @param StaticPage $sp
+	 *
+	 * @return Response
 	 */
-	public function redirectToShow()
+	public function about(StaticPage $sp)
+	{
+		$page = $sp->getPage('about');
+
+		if(!$page){
+			throw new NotFoundHttpException("ERROR 404 Page Not Found!");
+		}
+		return $this->render('page/page.html.twig', [
+			'page' => $page,
+		]);
+	}
+
+	/**
+	 * @Route("/contacts", name="contacts")
+	 * @param StaticPage $sp
+	 *
+	 * @return Response
+	 */
+	public function contacts(StaticPage $sp)
+	{
+		$page = $sp->getPage('contacts');
+
+		if(!$page){
+			throw new NotFoundHttpException("ERROR 404 Page Not Found!");
+		}
+		return $this->render('page/page.html.twig', [
+			'page' => $page,
+		]);
+	}
+
+
+	/*public function redirectToShow()
 	{
 		return $this->redirectToRoute('home');
-	}
+	}*/
 }
