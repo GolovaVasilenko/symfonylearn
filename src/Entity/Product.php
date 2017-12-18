@@ -22,6 +22,11 @@ class Product
     private $name;
 
 	/**
+	 * @ORM\Column(type="string", length=255, unique=true)
+	 */
+    private $slug;
+
+	/**
 	 * @ORM\Column(type="decimal", scale=2, nullable=true)
 	 */
     private $price;
@@ -118,6 +123,20 @@ class Product
 	 */
 	public function setCategory( Category $category ): void {
 		$this->category = $category;
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getSlug() {
+		return $this->slug;
+	}
+
+	/**
+	 * @param mixed $slug
+	 */
+	public function setSlug( $slug ): void {
+		$this->slug = $slug;
 	}
 
 

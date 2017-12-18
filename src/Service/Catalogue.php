@@ -5,6 +5,7 @@ namespace App\Service;
 
 
 use App\Entity\Category;
+use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 
 class Catalogue
@@ -30,6 +31,12 @@ class Catalogue
 	public function getCategories()
 	{
 		$repo = $this->em->getRepository(Category::class);
+		return $repo->findAll();
+	}
+
+	public function getProducts()
+	{
+		$repo = $this->em->getRepository(Product::class);
 		return $repo->findAll();
 	}
 

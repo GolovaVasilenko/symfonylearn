@@ -44,12 +44,16 @@ class ProductController extends Controller
     }
 
     /**
-	 * @Route("/product-show-by-name/{name}", name="product_show_by_name")
+	 * @Route("/product-show-by-name/{slug}", name="product_show_by_name")
+     *
+     * @param $slug
+     *
+     * @return mixed
 	 */
-	public function showByName($name)
+	public function showByName($slug)
 	{
 		$repo = $this->getDoctrine()->getRepository(Product::class);
-		$product = $repo->findOneBy(['name' => $name]);
+		$product = $repo->findOneBy(['slug' => $slug]);
 
 		if(!$product){
 			throw $this->createNotFoundException('Product not found');

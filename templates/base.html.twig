@@ -22,14 +22,15 @@
 
                     <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                         <ul class="navbar-nav mr-auto">
+
                             <li class="nav-item active">
                                 <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/about">About</a>
+                                <a class="nav-link" href="{{ path('page', {'slug': 'about'}) }}">About</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ path("categories") }}">Categories</a>
+                                <a class="nav-link" href="{{ path("categories") }}">Catalogue</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="/lucky/number">Lucky Number</a>
@@ -51,10 +52,19 @@
                 </nav>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="main">
-            {% block body %}{% endblock %}
+        <div class="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-3 col-xs-12">
+                        <div class="section-sidebar">
+                            {% block sidebar %}
+
+                            {% endblock %}
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        {% block body %}{% endblock %}
+                    </div>
                 </div>
             </div>
         </div>

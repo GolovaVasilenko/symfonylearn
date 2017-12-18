@@ -1,0 +1,17 @@
+<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+    <div class="products-item">
+        <div class="product-item--img">
+            <img src="{{ asset('assets/images/placeholder.jpg') }}" alt="" />
+        </div>
+        <div class="product-item--title">
+            {{ product.name }}
+        </div>
+        <div class="product-item--price">
+            {{ product.price }}
+        </div>
+        <div class="product-item-action">
+            <a class="btn btn-primary" href="{{ path('product_show_by_name',{'slug': product.slug}) }}">Подробнее</a>
+            <a class="btn btn-danger" href="#">Купить</a>
+        </div>
+    </div>
+</div>

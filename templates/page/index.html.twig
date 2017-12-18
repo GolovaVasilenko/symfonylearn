@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>{{ page.title }}</h1>
+    {% if products %}
+    <div class="section-products-list">
+        {% include '/product/blocks/products-loop.html.twig' %}
+    </div>
+    {% endif %}
+    {{ page.body }}
+{% endblock %}
+
+{% block title %}
+{{ page.metaTitle }}
+{% endblock %}
+

@@ -127,24 +127,6 @@ class Category
 	}
 
 	/**
-	 * @return mixed
-	 */
-	public function getParentId()
-	{
-		return $this->parent_id;
-	}
-
-	/**
-	 * @param mixed $parent_id
-	 * @return Category
-	 */
-	public function setParentId( $parent_id )
-	{
-		$this->parent_id = $parent_id;
-		return $this;
-	}
-
-	/**
 	 * @return Product[]|ArrayCollection
 	 */
 	public function getProducts():Collection
