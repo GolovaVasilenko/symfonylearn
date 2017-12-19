@@ -23,16 +23,16 @@ services:
         resource: '../src/Controller'
         tags: ['controller.service_arguments']
 
-    #app.menu_builder:
-        #class: App\Service\Menu
-        #arguments: ["@knp_menu.factory"]
+    app.menu_builder:
+        class: App\Service\Menu
+        arguments: ["@knp_menu.factory"]
 
-    #app.main_menu:
-        #class: Knp\Menu\MenuItem # the service definition requires setting the class
-        #factory: ["@app.menu_builder", createMainMenu]
-        #arguments: ["@request_stack"]
-        #tags:
-        #    - { name: knp_menu.menu, alias: main }
+    app.main_menu:
+        class: Knp\Menu\MenuItem # the service definition requires setting the class
+        factory: ["@app.menu_builder", createMainMenu]
+        arguments: ["@request_stack"]
+        tags:
+            - { name: knp_menu.menu, alias: main }
 
         # ...
     # add more service definitions when explicit configuration is needed

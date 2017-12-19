@@ -22,10 +22,10 @@ class Menu
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->addChild('Home', array('route' => 'page', 'slug' => ''));
-		$menu->addChild('About Us', array('route' => 'page', 'slug' => 'about'));
+		$menu->addChild('Home', array('route' => 'home'))->setAttribute('class');
+		$menu->addChild('About Us', array('route' => 'about'));
 		$menu->addChild('Catalogue', array('route' => 'categories'));
-		//$menu->addChild('Contacts', array('route' => 'contacts'));
+		$menu->addChild('Contacts', array('route' => 'contacts'));
 
 		return $menu;
 	}
