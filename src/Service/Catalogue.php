@@ -34,10 +34,22 @@ class Catalogue
 		return $repo->findAll();
 	}
 
+	/**
+	 * @return Category[]|Product[]|array
+	 */
 	public function getProducts()
 	{
 		$repo = $this->em->getRepository(Product::class);
 		return $repo->findAll();
 	}
 
+	/**
+	 * @return Category[]|array
+	 */
+	public function getTopCategories()
+	{
+		$repo = $this->em->getRepository(Category::class);
+
+		return $repo->findBy(['parent' => 0], ['name' => 'ASC']);
+	}
 }
