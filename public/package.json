@@ -1,0 +1,34 @@
+{
+  "name": "pro-forma",
+  "version": "1.0.0",
+  "description": "Template for the future projects",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "template",
+    "blank"
+  ],
+  "author": "evg.markov.fe@gmail.com",
+  "license": "ISC",
+  "devDependencies": {
+    "browser-sync": "^2.18.6",
+    "graceful-fs": "^4.1.11",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^3.1.1",
+    "gulp-cli": "^1.2.2",
+    "gulp-cssnano": "^2.1.2",
+    "gulp-imagemin": "^3.1.1",
+    "gulp-rigger": "^0.5.8",
+    "gulp-sass": "^3.1.0",
+    "gulp-sourcemaps": "^2.4.0",
+    "gulp-uglify": "^2.0.0",
+    "gulp-uncss": "^1.0.6",
+    "typescript": "^2.1.5"
+  },
+  "dependencies": {
+    "del": "^2.2.2",
+    "gulp-typescript": "^3.1.4"
+  }
+}
