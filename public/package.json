@@ -1,34 +1,25 @@
 {
-  "name": "pro-forma",
+  "name": "myproject",
   "version": "1.0.0",
-  "description": "Template for the future projects",
+  "description": "My First Gulp Project",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "template",
-    "blank"
-  ],
-  "author": "evg.markov.fe@gmail.com",
+  "author": "WebDesign Master",
   "license": "ISC",
   "devDependencies": {
-    "browser-sync": "^2.18.6",
-    "graceful-fs": "^4.1.11",
+    "browser-sync": "^2.18.13",
+    "del": "^3.0.0",
     "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.1",
-    "gulp-cli": "^1.2.2",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-cache": "^1.0.1",
+    "gulp-concat": "^2.6.1",
     "gulp-cssnano": "^2.1.2",
-    "gulp-imagemin": "^3.1.1",
-    "gulp-rigger": "^0.5.8",
+    "gulp-imagemin": "^4.0.0",
+    "gulp-rename": "^1.2.2",
     "gulp-sass": "^3.1.0",
-    "gulp-sourcemaps": "^2.4.0",
-    "gulp-uglify": "^2.0.0",
-    "gulp-uncss": "^1.0.6",
-    "typescript": "^2.1.5"
-  },
-  "dependencies": {
-    "del": "^2.2.2",
-    "gulp-typescript": "^3.1.4"
+    "gulp-uglifyjs": "^0.6.2",
+    "imagemin-pngquant": "^5.0.1"
   }
 }

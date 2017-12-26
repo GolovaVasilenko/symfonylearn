@@ -1,151 +1,93 @@
-'use strict';
+var gulp       = require('gulp'), // Подключаем Gulp
+	sass         = require('gulp-sass'), //Подключаем Sass пакет,
+	browserSync  = require('browser-sync'), // Подключаем Browser Sync
+	concat       = require('gulp-concat'), // Подключаем gulp-concat (для конкатенации файлов)
+	uglify       = require('gulp-uglifyjs'), // Подключаем gulp-uglifyjs (для сжатия JS)
+	cssnano      = require('gulp-cssnano'), // Подключаем пакет для минификации CSS
+	rename       = require('gulp-rename'), // Подключаем библиотеку для переименования файлов
+	del          = require('del'), // Подключаем библиотеку для удаления файлов и папок
+	imagemin     = require('gulp-imagemin'), // Подключаем библиотеку для работы с изображениями
+	pngquant     = require('imagemin-pngquant'), // Подключаем библиотеку для работы с png
+	cache        = require('gulp-cache'), // Подключаем библиотеку кеширования
+	autoprefixer = require('gulp-autoprefixer');// Подключаем библиотеку для автоматического добавления префиксов
 
-var gulp = require('gulp'),
-    autoprefixer = require('gulp-autoprefixer'),
-    browserSync = require('browser-sync'),
-    cssnano = require('gulp-cssnano'),
-    del = require('del'),
-    imagemin = require('gulp-imagemin'),
-    rigger = require('gulp-rigger'),
-    sass = require('gulp-sass'),
-    sourcemaps = require('gulp-sourcemaps'),
-    typescript = require('gulp-typescript'),
-    uglify = require('gulp-uglify'),
-    uncss = require('gulp-uncss'),
-    reload = browserSync.reload;
-
-var path = {
-    build: {
-        html: 'build',
-        js: 'build/js',
-        ts: 'src/js/ts',
-        css: 'build/css/',
-        img: 'build/assets/img',
-        video: 'build/assets/video',
-        fonts: 'build/fonts/'
-    },
-    src: {
-        html: 'src/*.html',
-        js: 'src/js/main.js',
-        ts: 'src/ts/tscript.ts',
-        css: 'src/css/style.scss',
-        img: 'src/assets/img/**/*.*',
-        video: 'src/assets/video/**/*.*',
-        fonts: 'src/fonts/**/*.*'
-    },
-    watch: {
-        html: 'src/**/*.html',
-        js: 'src/js/**/*.js',
-        ts: 'src/ts/**/*.ts',
-        css: 'src/css/**/*.scss',
-        img: 'src/assets/img/**/*.*',
-        video: 'src/assets/video/**/*.*',
-        fonts: 'src/fonts/**/*.*'
-    },
-    clean: {
-        build: 'build/**',
-        ts: 'src/js/ts/**'
-    }
-        
-};
-
-var config = {
-    server: {
-        baseDir: "./build"
-    },
-    logPrefix: "My Awesome Project"
-};
-
-gulp.task('html:build', function () {
-    gulp.src(path.src.html)
-        .pipe(rigger())
-        .pipe(gulp.dest(path.build.html))
-        .pipe(reload({
-            stream: true
-        }));
+gulp.task('sass', function(){ // Создаем таск Sass
+	return gulp.src('app/sass/**/*.scss') // Берем источник
+		.pipe(sass()) // Преобразуем Sass в CSS посредством gulp-sass
+		.pipe(autoprefixer(['last 15 versions', '> 1%', 'ie 8', 'ie 7'], { cascade: true })) // Создаем префиксы
+		.pipe(gulp.dest('app/css')) // Выгружаем результата в папку app/css
+		.pipe(browserSync.reload({stream: true})) // Обновляем CSS на странице при изменении
 });
 
-gulp.task('ts:build', function () {
-    return gulp.src(path.src.ts)
-//        .pipe(rigger())
-//        .pipe(sourcemaps.init())
-//        .pipe(typescript({
-//            noImplicitAny: true
-//        }))
-//        .pipe(sourcemaps.write())
-//        .pipe(gulp.dest(path.build.ts));
+gulp.task('browser-sync', function() { // Создаем таск browser-sync
+	browserSync({ // Выполняем browserSync
+		server: { // Определяем параметры сервера
+			baseDir: 'app' // Директория для сервера - app
+		},
+		notify: false // Отключаем уведомления
+	});
 });
 
-gulp.task('js:build', function () {
-    gulp.src(path.src.js)
-        .pipe(rigger())
-        .pipe(sourcemaps.init())
-        .pipe(sourcemaps.write())
-        .pipe(uglify())
-        .pipe(gulp.dest(path.build.js))
-        .pipe(reload({
-            stream: true
-        }));
+gulp.task('scripts', function() {
+	return gulp.src([ // Берем все необходимые библиотеки
+		'app/libs/jquery/dist/jquery.min.js', // Берем jQuery
+		'app/libs/magnific-popup/dist/jquery.magnific-popup.min.js' // Берем Magnific Popup
+		])
+		.pipe(concat('libs.min.js')) // Собираем их в кучу в новом файле libs.min.js
+		.pipe(uglify()) // Сжимаем JS файл
+		.pipe(gulp.dest('app/js')); // Выгружаем в папку app/js
 });
 
-gulp.task('css:build', function () {
-    gulp.src(path.src.css)
-        .pipe(rigger())
-        .pipe(sass())
-//        .pipe(uncss({
-//            html: ['build/index.html']    
-//        }))
-        .pipe(autoprefixer({
-            browsers: ['last 2 versions', '> 1%']
-        }))
-        .pipe(cssnano())
-        .pipe(sourcemaps.write())
-        .pipe(gulp.dest(path.build.css))
-        .pipe(reload({
-            stream: true
-        }));
+gulp.task('css-libs', ['sass'], function() {
+	return gulp.src('app/css/libs.css') // Выбираем файл для минификации
+		.pipe(cssnano()) // Сжимаем
+		.pipe(rename({suffix: '.min'})) // Добавляем суффикс .min
+		.pipe(gulp.dest('app/css')); // Выгружаем в папку app/css
 });
 
-gulp.task('img:build', function () {
-    gulp.src(path.src.img)
-        .pipe(imagemin({
-            progressive: true,
-            svgoPlugins: [{removeViewBox: false}],
-            interlaced: true
-        }))
-        .pipe(gulp.dest(path.build.img))
-        .pipe(reload({stream: true}));
+gulp.task('watch', ['browser-sync', 'css-libs', 'scripts'], function() {
+	gulp.watch('app/sass/**/*.scss', ['sass']); // Наблюдение за sass файлами в папке sass
+	gulp.watch('app/*.html', browserSync.reload); // Наблюдение за HTML файлами в корне проекта
+	gulp.watch('app/js/**/*.js', browserSync.reload);   // Наблюдение за JS файлами в папке js
 });
 
-gulp.task('fonts:build', function() {
-    gulp.src(path.src.fonts)
-        .pipe(gulp.dest(path.build.fonts))
+gulp.task('clean', function() {
+	return del.sync('dist'); // Удаляем папку dist перед сборкой
 });
 
-gulp.task('build', [
-    'html:build',
-//    'ts:build',
-    'css:build',
-    'fonts:build',
-    'js:build',
-    'img:build'
-])
-
-gulp.task('watch', function(){
-    gulp.watch([path.watch.html], ['html:build']);
-    gulp.watch([path.watch.css], ['css:build']);
-//    gulp.watch([path.watch.ts], ['ts:build', 'js:build']);
-    gulp.watch([path.watch.js], ['js:build']);
-    gulp.watch([path.watch.img], ['img:build']);
-    gulp.watch([path.watch.fonts], ['fonts:build']);    
+gulp.task('img', function() {
+	return gulp.src('app/img/**/*') // Берем все изображения из app
+		.pipe(cache(imagemin({ // С кешированием
+		// .pipe(imagemin({ // Сжимаем изображения без кеширования
+			interlaced: true,
+			progressive: true,
+			svgoPlugins: [{removeViewBox: false}],
+			use: [pngquant()]
+		}))/**/)
+		.pipe(gulp.dest('dist/img')); // Выгружаем на продакшен
 });
 
-gulp.task('webserver', function () {
-    browserSync(config);
+gulp.task('build', ['clean', 'img', 'sass', 'scripts'], function() {
+
+	var buildCss = gulp.src([ // Переносим библиотеки в продакшен
+		'app/css/main.css',
+		'app/css/libs.min.css'
+		])
+	.pipe(gulp.dest('dist/css'))
+
+	var buildFonts = gulp.src('app/fonts/**/*') // Переносим шрифты в продакшен
+	.pipe(gulp.dest('dist/fonts'))
+
+	var buildJs = gulp.src('app/js/**/*') // Переносим скрипты в продакшен
+	.pipe(gulp.dest('dist/js'))
+
+	var buildHtml = gulp.src('app/*.html') // Переносим HTML в продакшен
+	.pipe(gulp.dest('dist'));
+
 });
 
-gulp.task('clean', function () {
-    del([path.clean.build, path.clean.ts]);
-});
+gulp.task('clear', function (callback) {
+	return cache.clearAll();
+})
 
-gulp.task('default', ['build', 'webserver', 'watch']);
+gulp.task('default', ['build', 'watch']);
