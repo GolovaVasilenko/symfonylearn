@@ -6,63 +6,52 @@
         <title>{% block title %}Welcome!{% endblock %}</title>
 
         {% block stylesheets %}
-            <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-            <link rel="stylesheet" href="{{ asset('/assets/css/custom.css') }}" />
+            <link rel="stylesheet" href="{{ asset('dist/css/libs.min.css') }}" />
+            <link rel="stylesheet" href="{{ asset('dist/css/main.css') }}" />
         {% endblock %}
     </head>
     <body>
     <div class="wrapper">
-        <div class="container">
-            <div class="row">
-                <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse">
-                    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <a class="navbar-brand" href="/">WebDom Studio</a>
-
-                    <div class="collapse navbar-collapse" id="navbarsExampleDefault">
-                        {{ knp_menu_render('main') }}
-                        <!--ul class="navbar-nav mr-auto">
-
-                            <li class="nav-item active">
-                                <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path('about') }}">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path("products_list") }}">Catalogue</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{{ path("contacts") }}">Contacts</a>
-                            </li>
-                        </ul-->
-                        <ul class="navbar-nav navbar-right">
+        <div class="location-info">
+            <div class="contacts-info-section">phones - work time and more other information</div>
+            <div class="profile-block">
+                <ul class="navbar-nav-profile">
+                    {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                    <li class="nav-item">
+                        {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
+                        <a href="{{ path('fos_user_security_logout') }}">
+                            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
+                        </a>
+                    </li>
+                    {% else %}
                         <li class="nav-item">
-                        <form class="form-inline my-2 my-lg-0">
-                            <input class="form-control mr-sm-2" type="text" placeholder="Search">
-                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                        </form>
+                            <a href="#profile-popup" class="open-popup-link">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
+                            <!--a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a-->
                         </li>
-                            <li class="nav-item">
-                                {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
-                                    {{ 'layout.logged_in_as'|trans({'%username%': app.user.username}, 'FOSUserBundle') }} |
-                                    <li class="nav-item">
-                                        <a href="{{ path('fos_user_security_logout') }}">
-                                            {{ 'layout.logout'|trans({}, 'FOSUserBundle') }}
-                                        </a>
-                                    </li>
-                                {% else %}
-                                    <li class="nav-item">
-                                        <a href="{{ path('fos_user_security_login') }}">{{ 'layout.login'|trans({}, 'FOSUserBundle') }}</a>
-                                    </li>
-                                {% endif %}
-                            </li>
-                        </ul>
-                    </div>
-                </nav>
+                    {% endif %}
+                    </li>
+                </ul>
             </div>
         </div>
+        <div class="header-top">
+            <div class="logo-block">
+                <a href="/"><span>Super Mayka</span></a>
+            </div>
+            <div class="search-block">
+                <form class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search">
+                    <input class="btn btn-outline-success " type="submit" value="Search">
+                </form>
+            </div>
+            <div class="cart-block">
+                Shop Cart
+            </div>
+        </div>
+            <nav class="navigation nav-top">
+                <div class="collapse navbar-collapse" id="navbarsExampleDefault">
+                    {{ knp_menu_render('main') }}
+                </div>
+            </nav>
         <div class="main">
             <div class="container">
                 <div class="row">
@@ -80,10 +69,29 @@
             </div>
         </div>
         {% block javascripts %}
-            <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
-            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>
+            <script src="{{ asset('dist/js/libs.min.js') }}"></script>
+            <script src="{{ asset('dist/js/common.js') }}"></script>
         {% endblock %}
+    </div>
+
+    <div id="profile-popup" class="white-popup mfp-hide">
+        <div class="profile-login-form">
+            <form action="{{ path("fos_user_security_check") }}" method="post">
+
+                <label for="username">{{ 'security.login.username'|trans({}, 'FOSUserBundle') }}</label>
+                <input type="text" id="username" name="_username" required="required" autocomplete="username" />
+
+                <label for="password">{{ 'security.login.password'|trans({}, 'FOSUserBundle') }}</label>
+                <input type="password" id="password" name="_password" required="required" autocomplete="current-password" />
+
+                <label for="remember_me">
+                    <input type="checkbox" id="remember_me" name="_remember_me" value="on" />
+                    {{ 'security.login.remember_me'|trans({}, 'FOSUserBundle') }}
+                </label>
+
+                <input type="submit" id="_submit" name="_submit" value="{{ 'security.login.submit'|trans({}, 'FOSUserBundle')  }}" />
+            </form>
+        </div>
     </div>
     </body>
 </html>

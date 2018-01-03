@@ -25,10 +25,10 @@ class MenuBuilder
 	{
 		$menu = $this->factory->createItem('root');
 
-		$menu->addChild('Home', array('route' => 'home'))->setAttributes(['class' => 'nav-item']);
-		$menu->addChild('About Us', array('route' => 'about'));
-		$categoriesMenu = $menu->addChild('Catalogue', array('route' => 'categories'));
-		$menu->addChild('Contacts', array('route' => 'contacts'));
+		$menu->addChild('Главная', array('route' => 'home'))->setAttributes(['class' => 'nav-item']);
+		$menu->addChild('Доставка и Оплата', array('route' => 'about'));
+		$categoriesMenu = $menu->addChild('Каталог', array('route' => 'categories'));
+		$menu->addChild('Контакты', array('route' => 'contacts'));
 		$categoriesMenu->setExtra('dropdown', true);
 
 		foreach($this->catalogueService->getTopCategories() as $category) {

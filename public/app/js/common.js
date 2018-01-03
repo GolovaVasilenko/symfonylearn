@@ -1,5 +1,8 @@
 $(function() {
 
-	// Пользовательские функции
+    $('.open-popup-link').magnificPopup({
+        type:'inline',
+        midClick: true
+    });
 
 });
