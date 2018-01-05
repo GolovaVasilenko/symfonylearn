@@ -1,39 +1,43 @@
 <?php
 
 
+
 namespace App\Admin;
 
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class CategoryAdmin extends AbstractAdmin
-{
+class ProductAdmin extends AbstractAdmin {
 	protected function configureFormFields(FormMapper $formMapper)
 	{
 		$formMapper
+			->add('category', null, ['label' => 'Категория'])
 			->add('name')
 			->add('slug')
-			->add('description')
-			->add('parent');
+			->add('price')
+			->add('imageFile', VichImageType::class, ['required' => false])
+			->add('description');
 	}
 
 	protected function configureDatagridFilters(DatagridMapper $datagridMapper)
 	{
 		$datagridMapper
-			->add('id')
+			->add('category')
 			->add('name')
 			->add('slug')
-			->add('description')
-			->add('parent');
+			->add('price');
 	}
 
 	protected function configureListFields(ListMapper $listMapper)
 	{
 		$listMapper
+			->add('ID')
 			->addIdentifier('name')
 			->add('slug')
-			->add('parent');
+			->add('price');
 	}
 }

@@ -134,6 +134,11 @@ class Category
 		return $this->products;
 	}
 
+	/**
+	 * @param Product $product
+	 *
+	 * @return $this
+	 */
 	public function addProduct(Product $product)
 	{
 		$this->products->add($product);
@@ -147,5 +152,43 @@ class Category
 		return $this;
 	}
 
+	/**
+	 * @return string
+	 */
+	public function getFullName()
+	{
+		$res = [];
+		if($this->parent){
+			$parent = $this->parent;
+			while ($parent){
+				$res[] = $parent->name;
+				$parent = $parent->parent;
+			}
+		}
+		$res[] = $this->name;
+		return implode(' / ', $res);
+	}
 
+	/**
+	 * @return string
+	 */
+	public function __toString()
+	{
+		return $this->getFullName();
+	}
+
+	/**
+	 * @return mixed
+	 */
+	public function getParent()
+	{
+		return $this->parent;
+	}
+
+	/**
+	 * @param mixed $parent
+	 */
+	public function setParent( $parent ): void {
+		$this->parent = $parent;
+	}
 }
