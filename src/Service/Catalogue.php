@@ -35,6 +35,17 @@ class Catalogue
 	}
 
 	/**
+	 * @param $slug
+	 *
+	 * @return Category|null|object
+	 */
+	public function getCategoryBySlug($slug)
+	{
+		$repo = $this->em->getRepository(Category::class);
+		return $repo->findOneBy(['slug' => $slug]);
+	}
+
+	/**
 	 * @return Category[]|Product[]|array
 	 */
 	public function getProducts()
@@ -50,6 +61,6 @@ class Catalogue
 	{
 		$repo = $this->em->getRepository(Category::class);
 
-		return $repo->findBy(['parent' => 0], ['name' => 'ASC']);
+		return $repo->findBy(['parent' => null], ['name' => 'ASC']);
 	}
 }

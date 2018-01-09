@@ -1,8 +1,8 @@
-<div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
+<div class="product-item-block-wrapp">
     <div class="products-item">
         <div class="product-item--img">
             {% if product.imageName %}
-            <a class="btn btn-primary" href="{{ path('product_show_by_name',{'slug': product.slug}) }}">
+            <a href="{{ path('product_show_by_name',{'slug': product.slug}) }}">
             <img class="img-thumbnail" src="{{ vich_uploader_asset(product, 'imageFile') | imagine_filter('products_list') }}" alt="{{ product.name }}" />
             </a>
             {% endif %}

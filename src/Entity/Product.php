@@ -230,4 +230,13 @@ class Product
 		return $this->imageSize;
 	}
 
+	/**
+	 * @return mixed
+	 */
+	public function __toString(): string
+	{
+		$name = $this->getName()?$this->getName(): '';
+		return $name;
+	}
+
 }

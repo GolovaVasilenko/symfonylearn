@@ -1,6 +1,11 @@
 {% extends '@KnpMenu/menu.html.twig' %}
 {% import 'knp_menu.html.twig' as macros %}
 
+{% block root %}
+    {% set listAttributes = item.childrenAttributes|merge({'class': 'nav nav-bar'}) %}
+        {{ block('list') }}
+{%  endblock %}
+
 {% block item %}
     {% if item.displayed %}
         {%- set attributes = item.attributes %}

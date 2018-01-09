@@ -33,7 +33,7 @@ class MenuBuilder
 
 		foreach($this->catalogueService->getTopCategories() as $category) {
 			$categoriesMenu->addChild($category->getName(), [
-				'route' => 'category',
+				'route' => 'category_show',
 				'routeParameters' => ['slug' => $category->getSlug()],
 			]);
 		}

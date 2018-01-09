@@ -83,20 +83,6 @@ class ProductController extends Controller
 	}
 
 	/**
-	 * @Route("/product/update/{id}", name="product_update")
-	 */
-	public function update(Product $product, EntityManagerInterface $em)
-	{
-		$product->setPrice(12453.99);
-
-		$em->persist($product);
-		$em->flush();
-
-		return new Response("Product Updated");
-
-	}
-
-	/**
 	 * @Route("/product/delete/{id}", name="delete_product")
 	 */
 	public function delete(Product $product, EntityManagerInterface $em)

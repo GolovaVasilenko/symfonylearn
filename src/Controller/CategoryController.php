@@ -76,17 +76,17 @@ class CategoryController extends Controller
 	/**
 	 * @Route("/category/{slug}/{page}", name="category_show", requirements={"page": "\d+"})
 	 *
-	 * @ParamConverter("slag", options={"mapping": {"slug":"slug"}})  
+	 * @ParamConverter("slug", options={"mapping": {"slug":"slug"}})
 	 *
-	 * @param Category
 	 * @param $page
 	 * @param $session
+	 * @param $slug
 	 *
 	 * @return Response
 	 */
-	public function showBySlug(Category $category, SessionInterface $session, $page = 1 )
+	public function showBySlug(SessionInterface $session, $slug, $page = 1 )
 	{
-		$session->set('lastVisitedCategory', $category);
+		$category = $this->catalogue->getCategoryBySlug($slug);
 		return $this->render('category/show.html.twig',
 			['category' => $category,
 			 'title' => "category title",
