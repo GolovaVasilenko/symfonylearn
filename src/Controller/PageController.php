@@ -4,10 +4,12 @@
 namespace App\Controller;
 
 use App\Entity\Page;
+use App\Form\FeedBackType;
 use App\Service\Catalogue;
 use App\Service\StaticPage;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -62,17 +64,20 @@ class PageController extends Controller
 	 * @Route("/contacts", name="contacts")
 	 * @param StaticPage $sp
 	 *
+	 * @param Request $request
 	 * @return Response
 	 */
-	public function contacts(StaticPage $sp)
+	public function contacts(StaticPage $sp, Request $request)
 	{
 		$page = $sp->getPage('contacts');
+		$form = $this->createForm(FeedBackType::class);
 
 		if(!$page){
 			throw new NotFoundHttpException("ERROR 404 Page Not Found!");
 		}
-		return $this->render('page/page.html.twig', [
+		return $this->render('page/feedback.html.twig', [
 			'page' => $page,
+			'form' => $form->createView(),
 		]);
 	}
 
