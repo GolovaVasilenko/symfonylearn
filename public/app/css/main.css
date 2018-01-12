@@ -194,3 +194,10 @@ body {
 
 .dropdown:hover .dropdown-menu {
   display: block; }
+
+.alert {
+  margin: 15px 0; }
+
+.alert-success {
+  background-color: aquamarine;
+  padding: 10px; }
