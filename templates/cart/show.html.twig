@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+    <h1>Корзина</h1>
+{% if cart %}
+    <table class="cart_table">
+        <thead>
+        <th>
+            <td>Товар</td>
+            <td>Цена</td>
+            <td>Количество</td>
+            <td>Стоимость</td>
+        </th>
+        </thead>
+        <tbody>
+        {% foreach item in cart.items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.price }}</td>
+                <td>{{ item.count}}</td>
+                <td>{{ item.amount}}</td>
+            </tr>
+        {% endforeach %}
+        <tr>
+            <td colspan="2">Всего:</td>
+            <td>
+                {{ cart.count }}
+
+            </td>
+            <td>
+                {{ cart.amount }}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+{% else %}
+
+{% endif %}
+{% endblock %}

@@ -3,6 +3,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -94,6 +96,13 @@ class Order
 	 */
 	private $isPaid;
 
+	/**
+	 * @var OrderItem[]|Collection
+	 *
+	 * @ORM\OneToMany(targetEntity="App\Entity\OrderItem", mappedBy="order")
+	 */
+	private $items;
+
 	public function __construct()
 	{
 		$this->createdAt = new \DateTime();
@@ -103,6 +112,7 @@ class Order
 		$this->phone = '';
 		$this->status = self::STATUS_DRAFT;
 		$this->isPaid = false;
+		$this->items = new ArrayCollection();
 	}
 
 	/**
@@ -125,7 +135,7 @@ class Order
 	/**
 	 * @return User|null
 	 */
-	public function getUser(): ?User {
+	public function getUser(): ? User {
 		return $this->user;
 	}
 
@@ -134,7 +144,8 @@ class Order
 	 *
 	 * @return Order
 	 */
-	public function setUser( ?User $user ): Order {
+	public function setUser( ? User $user ): Order
+	{
 		$this->user = $user;
 		return $this;
 	}
@@ -142,7 +153,8 @@ class Order
 	/**
 	 * @return \DateTime
 	 */
-	public function getCreatedAt(): \DateTime {
+	public function getCreatedAt(): \DateTime
+	{
 		return $this->createdAt;
 	}
 
@@ -151,7 +163,8 @@ class Order
 	 *
 	 * @return Order
 	 */
-	public function setCreatedAt( \DateTime $createdAt ): Order {
+	public function setCreatedAt( \DateTime $createdAt ): Order
+	{
 		$this->createdAt = $createdAt;
 		return $this;
 	}
@@ -159,7 +172,8 @@ class Order
 	/**
 	 * @return int
 	 */
-	public function getCount(): int {
+	public function getCount(): int
+	{
 		return $this->count;
 	}
 
@@ -168,7 +182,8 @@ class Order
 	 *
 	 * @return Order
 	 */
-	public function setCount( int $count ): Order {
+	public function setCount( int $count ): Order
+	{
 		$this->count = $count;
 		return $this;
 	}
@@ -176,7 +191,8 @@ class Order
 	/**
 	 * @return float
 	 */
-	public function getAmount(): float {
+	public function getAmount(): float
+	{
 		return $this->amount;
 	}
 
@@ -185,7 +201,8 @@ class Order
 	 *
 	 * @return Order
 	 */
-	public function setAmount( float $amount ): Order {
+	public function setAmount( float $amount ): Order
+	{
 		$this->amount = $amount;
 		return $this;
 	}
@@ -193,7 +210,8 @@ class Order
 	/**
 	 * @return int
 	 */
-	public function getStatus(): int {
+	public function getStatus(): int
+	{
 		return $this->status;
 	}
 
@@ -202,7 +220,8 @@ class Order
 	 *
 	 * @return Order
 	 */
-	public function setStatus( int $status ): Order {
+	public function setStatus( int $status ): Order
+	{
 		$this->status = $status;
 		return $this;
 	}
@@ -210,7 +229,8 @@ class Order
 	/**
 	 * @return string
 	 */
-	public function getEmail(): string {
+	public function getEmail(): string
+	{
 		return $this->email;
 	}
 
@@ -219,7 +239,8 @@ class Order
 	 *
 	 * @return Order
 	 */
-	public function setEmail( string $email ): Order {
+	public function setEmail( string $email ): Order
+	{
 		$this->email = $email;
 		return $this;
 	}
@@ -227,7 +248,8 @@ class Order
 	/**
 	 * @return string
 	 */
-	public function getPhone(): string {
+	public function getPhone(): string
+	{
 		return $this->phone;
 	}
 
@@ -236,7 +258,8 @@ class Order
 	 *
 	 * @return Order
 	 */
-	public function setPhone( string $phone ): Order {
+	public function setPhone( string $phone ): Order
+	{
 		$this->phone = $phone;
 		return $this;
 	}
@@ -244,7 +267,8 @@ class Order
 	/**
 	 * @return null|string
 	 */
-	public function getAddress(): ?string {
+	public function getAddress(): ?string
+	{
 		return $this->address;
 	}
 
@@ -253,7 +277,8 @@ class Order
 	 *
 	 * @return Order
 	 */
-	public function setAddress( ?string $address ): Order {
+	public function setAddress( ?string $address ): Order
+	{
 		$this->address = $address;
 		return $this;
 	}
@@ -261,7 +286,8 @@ class Order
 	/**
 	 * @return bool
 	 */
-	public function isPaid(): bool {
+	public function isPaid(): bool
+	{
 		return $this->isPaid;
 	}
 
@@ -270,9 +296,55 @@ class Order
 	 *
 	 * @return Order
 	 */
-	public function setIsPaid( bool $isPaid ): Order {
+	public function setIsPaid( bool $isPaid ): Order
+	{
 		$this->isPaid = $isPaid;
 		return $this;
+	}
+
+	/**
+	 * @return OrderItem[]|ArrayCollection
+	 */
+	public function getItems(): ? Collection
+	{
+		return $this->items;
+	}
+
+	/**
+	 * @param OrderItem $item
+	 *
+	 * @return $this
+	 */
+	public function addItem(OrderItem $item)
+	{
+		$this->items->add($item);
+		$item->setOrder($this);
+		return $this;
+	}
+
+	/**
+	 * @param OrderItem $item
+	 *
+	 * @return $this
+	 */
+	public function removeItem(OrderItem $item)
+	{
+		$this->items->removeElement($item);
+		return $this;
+	}
+
+	/**
+	 *
+	 */
+	public function recalculateItems()
+	{
+		$this->count = 0;
+		$this->amount = 0;
+
+		foreach($this->items as $item) {
+			$this->count += $item->getCount();
+			$this->amount += $item->getAmount();
+		}
 	}
 
 }

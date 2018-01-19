@@ -5,9 +5,8 @@
 
 {% block body %}
     <div class="section-products-list">
-        {% include '/product/blocks/products-loop.html.twig' %}
+        {% include '/product/blocks/products-loop.html.twig' with {'products': products} %}
     </div>
-
 {% endblock %}
 
 

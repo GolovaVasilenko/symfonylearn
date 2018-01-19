@@ -15,7 +15,7 @@
         </div>
         <div class="product-item-action">
             <a class="btn btn-primary" href="{{ path('product_show_by_name',{'slug': product.slug}) }}">Подробнее</a>
-            <a class="btn btn-danger" href="#">Купить</a>
+            <a class="btn btn-danger" href="{{ path('cart_add_product', {'id': product.id, 'count': 1}) }}">Купить</a>
         </div>
     </div>
 </div>
