@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="order-container">
+        <h2>Подробности заказа</h2>
+        {% include 'order/item.html.twig' with {'cart': cart} %}
+
+        <h3>Информация о получателе</h3>
+
+        {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <button type="submit">Оформить заказ</button>
+        {{ form_end((form)) }}
+    </div>
+{% endblock %}
