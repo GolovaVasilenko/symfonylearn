@@ -203,3 +203,9 @@ body {
 	background-color: aquamarine;
 	padding: 10px;
 }
+.cart_table {
+	width: 60%;
+	tr:nth-child('even'){
+		background-color: #e1e3e9;
+	}
+}

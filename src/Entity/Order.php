@@ -334,6 +334,7 @@ class Order
 	public function addItem(OrderItem $item)
 	{
 		$this->items->add($item);
+		$this->recalculateItems();
 		$item->setOrder($this);
 		return $this;
 	}
@@ -346,6 +347,7 @@ class Order
 	public function removeItem(OrderItem $item)
 	{
 		$this->items->removeElement($item);
+		$this->recalculateItems();
 		return $this;
 	}
 

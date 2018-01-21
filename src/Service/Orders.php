@@ -49,8 +49,8 @@ class Orders {
 			$order = new Order();
 			$this->em->persist($order);
 			$this->em->flush();
-			$this->session->set('current_order_id', $order);
-			$this->session->remove('current_order_id');
+			$this->session->set('current_order_id', $order->getId());
+			//$this->session->remove('current_order_id');
 		}
 
 		return $order;
@@ -81,16 +81,25 @@ class Orders {
 			$existingItem = new OrderItem();
 			$existingItem->setProduct($product);
 			$order->addItem($existingItem);
-			$this->em->persist($existingItem);
 		}
 
+		$this->em->persist($existingItem);
 		$existingItem->addCount($count);
 		$this->em->flush();
+
 	}
 
 	public function makeOrder(Order $order)
 	{
 		$order->setStatus(Order::STATUS_COMPLETED);
+		$this->em->flush();
+	}
+
+	public function removeItem(OrderItem $orderItem)
+	{
+		$order = $this->getCurrentOrder();
+		$order->removeItem($orderItem);
+		$this->em->remove($orderItem);
 		$this->em->flush();
 	}
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 
 
 use App\Entity\Order;
+use App\Entity\OrderItem;
 use App\Form\OrderType;
 use App\Service\Orders;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -25,7 +26,7 @@ class OrderController extends Controller
 
 	/**
 	 *
-	 * @Route("/cart/{id}", name="show_cart")
+	 * @Route("/cart", name="show_cart")
 	 *
 	 * @return Response
 	 */
@@ -49,6 +50,21 @@ class OrderController extends Controller
 	public function addItemToCart(Product $product, $count, Request $request)
 	{
 		$this->order->addProduct($product, $count);
+
+		return $this->redirect($request->headers->get('referer'));
+	}
+
+	/**
+	 * @param OrderItem $orderItem
+	 * @param Request $request
+	 *
+	 * @Route("order/removeItem", name="remove_item")
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+	public function removeItem(OrderItem $orderItem, Request $request)
+	{
+		$this->order->removeItem($orderItem);
 
 		return $this->redirect($request->headers->get('referer'));
 	}

@@ -44,8 +44,13 @@
                 </form>
             </div>
             <div class="cart-block">
-                Корзина:
-                {{ orderService.getCurrentOrder.count }}
+                <div class="cart-info-section">Корзина - {{ orderService.currentOrder.items.count }} </div>
+                <div class="cart-info-more">
+                    В корзине
+                {{ orderService.getCurrentOrder.count }} товаров <br>
+                    На сумму {{ orderService.currentOrder.amount }}
+                </div>
+
             </div>
         </div>
             <nav class="navigation nav-top">

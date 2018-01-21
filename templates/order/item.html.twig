@@ -1,31 +1,35 @@
-<table class="cart_table">
-    <thead>
-    <th>
-    <td>Товар</td>
-    <td>Цена</td>
-    <td>Количество</td>
-    <td>Стоимость</td>
-    </th>
-    </thead>
-    <tbody>
-    {% foreach item in cart.items %}
+<div class="container">
+    <table class="cart_table">
+        <thead>
         <tr>
-            <td>{{ item.product.name }}</td>
-            <td>{{ item.product.price }}</td>
-            <td>{{ item.count}}</td>
-            <td>{{ item.amount}}</td>
+            <th>Товар</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Стоимость</th>
+            <th>Действие</th>
         </tr>
-    {% endforeach %}
+        </thead>
+        <tbody>
+        {% for item in cart.items %}
+            <tr>
+                <td>{{ item.product.name }}</td>
+                <td>{{ item.product.price }} грн.</td>
+                <td>{{ item.count}}</td>
+                <td>{{ item.amount}} грн.</td>
+                <td><a href="{{ path("remove_item") }}">delete</a></td>
+            </tr>
+        {% endfor %}
 
-    <tr>
-        <td colspan="2">Всего:</td>
-        <td>
-            {{ cart.count }}
+        <tr>
+            <td colspan="2">Всего:</td>
+            <td>
+                {{ cart.count }}
 
-        </td>
-        <td>
-            {{ cart.amount }}
-        </td>
-    </tr>
-    </tbody>
-</table>
+            </td>
+            <td>
+                {{ cart.amount }} грн.
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
