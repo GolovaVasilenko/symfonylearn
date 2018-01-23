@@ -11,7 +11,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class ProductAdmin extends AbstractAdmin {
+class ProductAdmin extends AbstractAdmin
+{
 	protected function configureFormFields(FormMapper $formMapper)
 	{
 		$formMapper

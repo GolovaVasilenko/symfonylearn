@@ -62,6 +62,14 @@ class Order
 	const STATUS_RESEIVED = 3;
 	const STATUS_COMPLETED = 4;
 
+	static $statuses = [
+		self::STATUS_DRAFT => 'draft',
+		self::STATUS_ORDER => 'ordered',
+		self::STATUS_SEND => 'sent',
+		self::STATUS_RESEIVED => 'received',
+		self::STATUS_COMPLETED => 'completed',
+	];
+
 	/**
 	 * @var int
 	 *
@@ -377,6 +385,11 @@ class Order
 	 */
 	public function setCustomerName( string $customerName ): void {
 		$this->customerName = $customerName;
+	}
+
+	public function getStatusLabel()
+	{
+		return self::$statuses[$this->status];
 	}
 
 }

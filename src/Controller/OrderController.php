@@ -58,7 +58,7 @@ class OrderController extends Controller
 	 * @param OrderItem $orderItem
 	 * @param Request $request
 	 *
-	 * @Route("order/removeItem", name="remove_item")
+	 * @Route("order/removeItem/{id}", name="remove_item", requirements={"id": "\d+"})
 	 *
 	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
 	 */

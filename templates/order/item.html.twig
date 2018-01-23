@@ -16,7 +16,7 @@
                 <td>{{ item.product.price }} грн.</td>
                 <td>{{ item.count}}</td>
                 <td>{{ item.amount}} грн.</td>
-                <td><a href="{{ path("remove_item") }}">delete</a></td>
+                <td><a href="{{ path("remove_item", {'id': item.id }) }}">delete</a></td>
             </tr>
         {% endfor %}
 
